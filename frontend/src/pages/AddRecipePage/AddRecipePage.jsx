@@ -40,7 +40,6 @@ const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
   const [file, setFile] = useState(null);
   const [imageSrc, setImageSrc] = useState('')
 
-
   const handleReceptName = (event) => setNewReceptName(event.target.value)
   const handleReceptSpeed = (event) => setRecipeSpeed(event.target.value)
 
@@ -58,9 +57,6 @@ const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    
-    console.log('imageSRC,', imageSrc
-    )
    
     handleRecipeAdd({
       recipe_name: newReceptName,

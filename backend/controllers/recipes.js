@@ -1,12 +1,11 @@
 const recipesRouter = require('express').Router()
 const Recipe = require('../models/recipe')
+const fetchRecipes = require('../middlewares/recipes');
+const { rndImageName } = require('./multer')
 
-recipesRouter.get('/', async (request, response, next) => {
-  Recipe.find({})
-  .then(recipes => {
-    response.json(recipes)
-  })
-  .catch(error => next(error))
+recipesRouter.get('/', fetchRecipes, async (request, response, next) => {
+  const recipes = request.recipes; 
+  response.json(recipes);
 })
 
 recipesRouter.get('/:id', async (request, response, next) => {
@@ -22,9 +21,7 @@ recipesRouter.get('/:id', async (request, response, next) => {
 
 recipesRouter.post('/', async (request, response, next) => {
   const body = request.body
-  // Now you can use imageName variable in this component
   
-  console.log('body', body)
   const recipe = new Recipe({
     id: body.id,
     recipe_name: body.recipe_name,
@@ -38,7 +35,7 @@ recipesRouter.post('/', async (request, response, next) => {
     comments: body.comments || [],
     creator: body.creator || "admin",
     created: new Date(),
-    imageSrc: body.imageSrc
+    imageName: rndImageName,
   })
 
   recipe.save()
@@ -47,5 +44,6 @@ recipesRouter.post('/', async (request, response, next) => {
     })
     .catch(error => next(error))
 })
+
 
 module.exports = recipesRouter

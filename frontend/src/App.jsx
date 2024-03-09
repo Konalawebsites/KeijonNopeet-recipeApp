@@ -5,12 +5,14 @@ import { Routes, Route } from '../node_modules/react-router-dom/dist/index';
 import NavBar from './Menu/NavBar';
 import MainPage from 'pages/MainPage/MainPage';
 import LoginForm from 'pages/LoginPage/LoginForm';
-import CreateAccount from 'pages/CreateuserPage/CreateAccount';
+import CreateUser from 'pages/CreateuserPage/CreateUser';
 import RecipesPage from 'pages/RecipesPage/RecipesPage';
 import AddRecipePage from 'pages/AddRecipePage/AddRecipePage';
 import SingleRecipe from 'pages/SingleRecipe/SingleRecipe';
 import recipeService from './services/recipes'
-import awsService from './services/aws'
+import loginService from './services/login'
+import userService from './services/users'
+import  awsService from './services/aws'
 import { useEffect, useState } from 'react';
 
 
@@ -26,11 +28,12 @@ const theme = {
 
 const App = () => {
   const [recipes, setRecipes] = useState([])
+  const [user, setUser] = useState(null)
 
-  console.log('recipes', recipes)
+  console.log(recipes)
 
   useEffect(() => {
-    recipeService.getAll()
+    awsService.getAll()
       .then(recipes => {
         setRecipes(recipes)
       })
@@ -38,6 +41,7 @@ const App = () => {
         console.error('Error fetching recipes:', error)
       });
   }, [])
+
 
   const handleRecipeAdd = async (recipeObject) => {
     const recipe_name = recipeObject.recipe_name
@@ -50,25 +54,34 @@ const App = () => {
     const comments = recipeObject.comments 
     const creator = recipeObject.creator 
     const created = recipeObject.created
-    const imageSrc = recipeObject.imageSrc
+
+    console.log(recipeObject)
   
     try {
       const recipe = await recipeService.create({
         recipe_name, ingredients, instructions, speed, category, 
-        main_ingredient, diet, comments, creator, created, imageSrc
+        main_ingredient, diet, comments, creator, created
       })
       setRecipes(recipes.concat(recipe))
-    }
-
+    } 
     catch (exception) {
       console.log('error'
       )
     }
   }
   const handleImageAdd = async (file) => {
-    console.log('frontend', file)
     try {
       await awsService.create(file)
+    }
+    catch (exception) {
+      console.log('error'
+      )
+    }
+  }
+
+  const handleUserAdd = async (user) => {
+    try {
+      await userService.create(user)
     }
     catch (exception) {
       console.log('error'
@@ -81,11 +94,11 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<MainPage recipes={recipes} />} />
-        <Route path="/signin" element={<LoginForm />} />
-        <Route path="/createuser" element={<CreateAccount />} />
+        <Route path="/signin" element={<LoginForm/>} />
+        <Route path="/createuser" element={<CreateUser handleUserAdd={handleUserAdd} />} />
         <Route path="/recipes" element={<RecipesPage recipes={recipes} />} />
-        <Route path="/addrecipe" element={<AddRecipePage recipes={recipes} handleRecipeAdd={handleRecipeAdd}
-         handleImageAdd={handleImageAdd}/>} />
+        <Route path="/addrecipe" element={<AddRecipePage handleRecipeAdd={handleRecipeAdd}
+         handleImageAdd={handleImageAdd} />} />
 
         {recipes?.map(recipe => (
           <Route

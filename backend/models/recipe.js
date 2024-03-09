@@ -14,7 +14,12 @@ const recipeSchema = new mongoose.Schema({
   comments: Array,
   creator: String,
   created: Date,
-  imageSrc: String,
+  imageName: String,
+  imageUrl: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 recipeSchema.set('toJSON', {

@@ -11,8 +11,6 @@ const StyledImage = styled(Image)`
   width: 200px;
   height: 200px;
 `
-
-
 const RecipeListed = ({ recipe }) => {
 
   const navigate = useNavigate();
@@ -26,10 +24,8 @@ const RecipeListed = ({ recipe }) => {
       <Card align="center" width="250px">
         <Box margin="20px"  >
           <Stack anchor="top-right" >
-            <StyledImage src={recipe.image} />
-          
+            <StyledImage src={recipe.imageUrl} />
             {recipe.speed > 90 && <Trigger size="medium" color="orange" />}
-            
             <Box margin="10px" >
               <Like size="large" />
               <Text textAlign="center"> {recipe.likes} </Text>

@@ -32,7 +32,6 @@ const CenterBox = styled(Box)`
 `;
  
 const SingleRecipe = ({ recipe, recipes }) => {
-  console.log(recipe)
 
   return (
     <CenteredContainer>
@@ -53,7 +52,7 @@ const SingleRecipe = ({ recipe, recipes }) => {
         >
 
           <Box gridArea="image" margin="20px">
-            <StyledImage src={recipe.image} />
+            <StyledImage src={recipe.imageUrl} />
           </Box>
 
           <Box gridArea="basicInfo" margin="6px">

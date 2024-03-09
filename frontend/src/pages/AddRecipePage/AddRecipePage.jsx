@@ -4,7 +4,6 @@ import { Box, Grid } from "grommet";
 
 import Selectors from "./Selectors";
 import NewRecipeName from "./NewRecipeName";
-import CategoryMainIngredient from "./CategoryMainIngredient";
 import AddFileForm from "./AddFileForm";
 import styled from "styled-components";
 import IngredientsTable from "./IngredientsForm";
@@ -28,7 +27,7 @@ const CenterBox = styled(Box)`
   width: 90%;
 `;
 
-const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
+const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
 
   const [newReceptName, setNewReceptName] = useState('')
   const [ingredients, setIngredients] = useState([])
@@ -44,6 +43,9 @@ const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
   const handleReceptSpeed = (event) => setRecipeSpeed(event.target.value)
 
   const handleReset = (event) => {
+
+    event.preventDefault()
+
     setNewReceptName('')
     setIngredients([])
     setInstructions('')
@@ -57,7 +59,12 @@ const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-   
+
+    handleImageAdd({file, imageSrc})
+
+    console.log(file)
+    console.log(imageSrc)
+
     handleRecipeAdd({
       recipe_name: newReceptName,
       ingredients: ingredients,
@@ -66,10 +73,7 @@ const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
       category: category,
       main_ingredient: mainIngredient,
       diet: diets,
-      imageSrc: imageSrc
     })
-
-    handleImageAdd({file, imageSrc})
 
     setNewReceptName('')
     setIngredients([])
@@ -121,7 +125,6 @@ const AddRecipePage = ({ recipes, handleRecipeAdd, handleImageAdd }) => {
 
           <CenteredContainer gridArea="submit">
             <ResetSubmit handleReset={handleReset} handleSubmit={handleSubmit} />
-
           </CenteredContainer>
 
         </Grid>

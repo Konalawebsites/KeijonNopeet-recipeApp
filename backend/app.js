@@ -5,6 +5,8 @@ const app = express()
 const cors = require('cors')
 const recipesRouter = require('./controllers/recipes')
 const { awsRouter } = require('./controllers/multer')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware.js')
 const logger = require('./utils/logger.js')
 const mongoose = require('mongoose')
@@ -28,7 +30,9 @@ app.use(express.json())
 app.use(middleware.requestLogger)
 
 app.use('/api/recipes', recipesRouter)
+app.use('/api/users', usersRouter)
 app.use('/api/recipeImages', awsRouter)
+app.use('/api/login', loginRouter)
 
 // if (process.env.NODE_ENV === 'test') {
 //   const testingRouter = require('./controllers/testing')

@@ -9,6 +9,9 @@ const userSchema = mongoose.Schema({
   },
   name: String,
   passwordHash: String,
+  created: Date,
+  imageName: String,
+  avatarUrl: String,
   recipes: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,7 +33,5 @@ userSchema.set('toJSON', {
 })
 
 const User = mongoose.model('User', userSchema)
-
-userSchema.plugin(uniqueValidator)
 
 module.exports = User

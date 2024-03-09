@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react"
 // @ts-ignore
-import { Box, Button, Grid, InfiniteScroll, ResponsiveContext, Text } from "grommet";
+import { Box, Button } from "grommet";
 import styled from "styled-components";
 import RecipesSearchResult from "./RecipesSearchResult";
 
@@ -45,7 +45,7 @@ const RecipesPart = ({ filteredRecipes, setFilteredRecipes }) => {
     });
 
     console.log('sortBy', sortBy)
-    if (sortBy === 'likes' || sortBy === 'speed') {
+    if (sortBy === 'likes' || sortBy === 'speed' || sortBy === 'created') {
       setFilteredRecipes(newFilteredRecipes.reverse())
     }
     else { setFilteredRecipes(newFilteredRecipes) }

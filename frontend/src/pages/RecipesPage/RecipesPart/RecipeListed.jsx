@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react"
-import { Avatar, Box, Button, Card, Image, ResponsiveContext, Stack, Text } from "grommet";
+import { Box, Card, Image, Stack, Text } from "grommet";
 import styled from "styled-components";
 import { Like, Trigger } from 'grommet-icons';
 import { useNavigate } from "react-router-dom";

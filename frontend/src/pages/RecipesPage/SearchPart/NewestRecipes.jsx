@@ -13,7 +13,7 @@ const StyledBox = styled(Box)`
 
 const NewestRecipes = ({ recipes }) => {
 
-  const sortedRecipes = recipes.sort((a, b) => {
+  const sortedRecipes = recipes.sort((b, a) => {
     return a.created.localeCompare(b.created);
   });
 

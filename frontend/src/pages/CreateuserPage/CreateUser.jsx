@@ -21,7 +21,7 @@ const CenterBox = styled(Box)`
   width: 90%;
 `;
 
-const CreateUser = ({handleUserAdd}) => {
+const CreateUser = ({handleUserAdd, handleImageAdd}) => {
 
   const [name, setName] = useState('')
   const [surName, setSurName] = useState('')
@@ -33,7 +33,22 @@ const CreateUser = ({handleUserAdd}) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log('adsdas')
+
+    handleImageAdd({file, imageSrc})
+
+    console.log('file:', file)
+    console.log('imageSrc:', imageSrc)
+
+    handleUserAdd({
+      username: username, 
+      password: password 
+    })
+
+    setFile(null)
+    setImageSrc('')
+    setUsername('')
+    setPassword('')
+    setPassword2('')
   }
 
   return (
@@ -54,7 +69,6 @@ const CreateUser = ({handleUserAdd}) => {
             <ProfileImage file={file} setFile={setFile} imageSrc={imageSrc} setImageSrc={setImageSrc} />
           </Box>
           
-
           <Box gridArea='profileInput' width="350px"> 
             <ProfileInput username={username} setUsername={setUsername} password={password} password2={password2}
             setPassword={setPassword} setPassword2={setPassword2}/>

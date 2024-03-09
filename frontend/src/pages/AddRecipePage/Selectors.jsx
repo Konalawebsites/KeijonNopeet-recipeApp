@@ -32,7 +32,6 @@ const Selectors = ({ diets, setDiets, category, setCategory, mainIngredient, set
   const mainingredientLogo = <img className="logo" src={mainingredient} alt="logo" width="20px" />
  
   const handleAdd = (value) => {
-    // TODO : if value exists in diets. Remove it // 
     if (diets.includes(value)) {
       var index = diets.indexOf(value);
 

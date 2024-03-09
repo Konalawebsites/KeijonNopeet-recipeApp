@@ -1,10 +1,11 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const { rndImageName } = require('./multer')
 
 usersRouter.get('/', async (request, response) => {
   const users = await User
-  .find({}).populate('recipes', { title: 1, author: 1 })
+  .find({}).populate('recipes')
 
   response.json(users.map( user => user.toJSON()))
 })
@@ -18,6 +19,8 @@ usersRouter.post('/', async (request, response) => {
   const user = new User({
     username,
     passwordHash,
+    created: new Date(),
+    imageName: rndImageName,
   })
 
   const savedUser = await user.save()

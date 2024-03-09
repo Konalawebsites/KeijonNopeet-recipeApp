@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react"
+import { useState } from "react"
 import { Box, Grid } from "grommet";
 
 import Selectors from "./Selectors";
@@ -9,7 +9,6 @@ import styled from "styled-components";
 import IngredientsTable from "./IngredientsForm";
 import Instructions from "./Instructions";
 import ResetSubmit from "./ResetSubmit";
-
 
 const CenteredContainer = styled(Box)`
   display: flex;
@@ -61,9 +60,6 @@ const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
     event.preventDefault()
 
     handleImageAdd({file, imageSrc})
-
-    console.log(file)
-    console.log(imageSrc)
 
     handleRecipeAdd({
       recipe_name: newReceptName,

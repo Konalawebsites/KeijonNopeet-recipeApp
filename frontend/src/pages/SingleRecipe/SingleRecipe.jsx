@@ -75,6 +75,7 @@ const SingleRecipe = ({ recipe, recipes }) => {
           <Box gridArea="comments" margin={{ left: "50px", top: "50px", bottom:"50px" }}>
             <CommentSection recipe={recipe}/>
           </Box>
+          
         </Grid>
       </CenterBox>
     </CenteredContainer >

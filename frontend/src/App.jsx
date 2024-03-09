@@ -28,9 +28,8 @@ const theme = {
 
 const App = () => {
   const [recipes, setRecipes] = useState([])
-  const [user, setUser] = useState(null)
-
-  console.log(recipes)
+  const [users, setUsers] = useState([])
+  const [loggedUser, setLoggedUser] = useState(null)
 
   useEffect(() => {
     awsService.getAll()
@@ -40,6 +39,25 @@ const App = () => {
       .catch(error => {
         console.error('Error fetching recipes:', error)
       });
+  }, [])
+
+  useEffect(() => {
+    awsService.getAllAvatars()
+      .then(users => {
+        setUsers(users)
+      })
+      .catch(error => {
+        console.error('Error fetching users:', error)
+      });
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedRecipeappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setLoggedUser(user)
+      recipeService.setToken(user.token)
+    }
   }, [])
 
 
@@ -54,8 +72,6 @@ const App = () => {
     const comments = recipeObject.comments 
     const creator = recipeObject.creator 
     const created = recipeObject.created
-
-    console.log(recipeObject)
   
     try {
       const recipe = await recipeService.create({
@@ -69,7 +85,7 @@ const App = () => {
       )
     }
   }
-  const handleImageAdd = async (file) => {
+  const awsRecipeImageAdd = async (file) => {
     try {
       await awsService.create(file)
     }
@@ -78,10 +94,9 @@ const App = () => {
       )
     }
   }
-
-  const handleUserAdd = async (user) => {
+  const awsAvatarImageAdd = async (file) => {
     try {
-      await userService.create(user)
+      await awsService.createAvatar(file)
     }
     catch (exception) {
       console.log('error'
@@ -89,16 +104,28 @@ const App = () => {
     }
   }
 
+  const handleUserAdd = async (loggedUser) => {
+    console.log('handleuserAdd, user:', loggedUser)
+    try {
+      await userService.create(loggedUser)
+      setUsers(users.concat(loggedUser))
+    }
+    catch (exception) {
+      console.log('error')
+    }
+  }
+
   return (
     <Grommet theme={theme} full>
-      <NavBar />
+      <NavBar user={loggedUser} setUser={setLoggedUser}/>
       <Routes>
         <Route path="/" element={<MainPage recipes={recipes} />} />
-        <Route path="/signin" element={<LoginForm/>} />
-        <Route path="/createuser" element={<CreateUser handleUserAdd={handleUserAdd} />} />
+        <Route path="/signin" element={<LoginForm setUser={setLoggedUser}/>} />
+        <Route path="/createuser" element={<CreateUser handleUserAdd={handleUserAdd} 
+        handleImageAdd={awsAvatarImageAdd} />} />
         <Route path="/recipes" element={<RecipesPage recipes={recipes} />} />
         <Route path="/addrecipe" element={<AddRecipePage handleRecipeAdd={handleRecipeAdd}
-         handleImageAdd={handleImageAdd} />} />
+         handleImageAdd={awsRecipeImageAdd} />} />
 
         {recipes?.map(recipe => (
           <Route

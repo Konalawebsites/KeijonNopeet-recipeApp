@@ -1,6 +1,8 @@
 const multer = require('multer')
 const awsRouter = require('express').Router()
+const Recipe = require('../models/recipe')
 const fetchRecipes = require('../middlewares/recipes')
+const fetchUsers = require('../middlewares/users')
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
 const crypto = require('crypto')
 const sharp = require('sharp')
@@ -29,24 +31,35 @@ const s3 = new S3Client({
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-awsRouter.get('/', fetchRecipes, async (req, res) => {
+awsRouter.get('/recipeImages', fetchRecipes, async (req, res) => {
 
-  const recipes = req.recipes
+  const recipes = await Recipe
+    .find({}).populate('user', { username: 1 })
 
   for (const recipe of recipes) {
-    const getObjectParams = {
+    const recipeImageParams = {
       Bucket: bucketName,
       Key: 'recipeImages/' + recipe.imageName, 
     }
 
-    const command = new GetObjectCommand(getObjectParams)
-    const url = await getSignedUrl(s3, command, {expiresIn: 5} )
-    recipe.imageUrl = url
+    const command = new GetObjectCommand(recipeImageParams)
+    const urlRecipe = await getSignedUrl(s3, command, {expiresIn: 5} )
+    recipe.imageUrl = urlRecipe
+
+    const avatarImageParams = {
+      Bucket: bucketName,
+      Key: 'avatarImages/' + recipe.imageName, 
+    }
+
+    const command2 = new GetObjectCommand(avatarImageParams)
+    const urlAvatar = await getSignedUrl(s3, command2, {expiresIn: 5} )
+    recipe.avatarUrl = urlAvatar
+    
   }
   await res.send(recipes)
 })
 
-awsRouter.post('/', upload.single('file'), async (req, res) => {
+awsRouter.post('/recipeImages', upload.single('file'), async (req, res) => {
   const buffer = await sharp(req.file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer()
 
   const params = {
@@ -61,6 +74,37 @@ awsRouter.post('/', upload.single('file'), async (req, res) => {
   await s3.send(command)
 })
 
+awsRouter.get('/avatarImages', fetchUsers, async (req, res) => {
+
+  const users = req.users
+
+  for (const user of users) {
+    const getObjectParams = {
+      Bucket: bucketName,
+      Key: 'avatarImages/' + user.imageName, 
+    }
+
+    const command = new GetObjectCommand(getObjectParams)
+    const url = await getSignedUrl(s3, command, {expiresIn: 5} )
+    user.avatarUrl = url
+  }
+  await res.send(users)
+})
+
+awsRouter.post('/avatarImages', upload.single('file'), async (req, res) => {
+  const buffer = await sharp(req.file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer()
+
+  const params = {
+    Bucket: bucketName,
+    Key: 'avatarImages/' + rndImageName, 
+    Body: buffer,
+    ContentType: req.file.mimetype
+  }
+
+  const command = new PutObjectCommand(params)
+  
+  await s3.send(command)
+})
 
 // // // /// // // // 
 // const fetchImageUrl = async (imageName) => {

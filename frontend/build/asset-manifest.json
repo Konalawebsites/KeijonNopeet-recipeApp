@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.e62920bc.js",
+    "main.js": "/static/js/main.40330920.js",
     "static/media/speedometer002.jpg": "/static/media/speedometer002.ba187572987dbbb2469d.jpg",
     "static/media/speedometer003.jpg": "/static/media/speedometer003.bdd25ea108de69d36584.jpg",
     "static/media/speedometer017.jpg": "/static/media/speedometer017.4e5de4fc781d2cb14145.jpg",
@@ -46,9 +46,9 @@
     "static/media/gluten-free.png": "/static/media/gluten-free.0a9072ec39418138b93f.png",
     "static/media/no-milk.png": "/static/media/no-milk.9b081f5de40220c5f403.png",
     "index.html": "/index.html",
-    "main.e62920bc.js.map": "/static/js/main.e62920bc.js.map"
+    "main.40330920.js.map": "/static/js/main.40330920.js.map"
   },
   "entrypoints": [
-    "static/js/main.e62920bc.js"
+    "static/js/main.40330920.js"
   ]
 }

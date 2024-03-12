@@ -1,6 +1,6 @@
 import axios from 'axios'
-const recipeImagesUrl = 'http://localhost:3001/api/aws/recipeImages'
-const avatarImagesUrl = 'http://localhost:3001/api/aws/avatarImages'
+const recipeImagesUrl = '/api/aws/recipeImages'
+const avatarImagesUrl = '/api/aws/avatarImages'
 
 const getAll = async () => {
   const request = axios.get(recipeImagesUrl)

@@ -1,5 +1,4 @@
 const recipesRouter = require('express').Router()
-const { awsRouter } = require('./multer')
 const Recipe = require('../models/recipe')
 const User = require('../models/user')
 const fetchRecipes = require('../middlewares/recipes');

@@ -1,12 +1,14 @@
 const recipesRouter = require('express').Router()
+const { awsRouter } = require('./multer')
 const Recipe = require('../models/recipe')
 const User = require('../models/user')
 const fetchRecipes = require('../middlewares/recipes');
-const { rndImageName } = require('./multer')
+
 const jwt = require('jsonwebtoken')
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
+  console.log('authorization', authorization)
   if (authorization && authorization.startsWith('Bearer ')) {
     return authorization.replace('Bearer ', '')
   }
@@ -15,7 +17,7 @@ const getTokenFrom = request => {
 
 recipesRouter.get('/', fetchRecipes, async (request, response, next) => {
   const recipes = await Recipe
-    .find({}).populate('user', { username: 1 })
+    .find({}).populate('user', { username: 1, imageName: 1})
 
   response.json(recipes)
 })
@@ -36,6 +38,7 @@ recipesRouter.post('/', async (request, response, next) => {
   const body = request.body
 
   const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
+
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
@@ -52,15 +55,15 @@ recipesRouter.post('/', async (request, response, next) => {
     diet: body.diet,
     likes: body.likes || 0,
     comments: body.comments || [],
-    creator: body.creator || "admin",
     created: new Date(),
-    imageName: rndImageName,
+    imageName: body.imageName,
     user: user._id
   })
 
   const savedRecipe = await recipe.save()
   user.recipes = user.recipes.concat(savedRecipe._id)
   await user.save()
+
 })
 
 

@@ -22,6 +22,8 @@ const CarouselComp = (props) => {
   const { list } = props;
   const { header } = props
 
+  console.log('props:', props)
+
 
   // Ensure list is defined and not empty
   if (!list || list.length === 0) {

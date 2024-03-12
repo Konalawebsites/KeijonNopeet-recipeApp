@@ -36,9 +36,6 @@ const CreateUser = ({handleUserAdd, handleImageAdd}) => {
 
     handleImageAdd({file, imageSrc})
 
-    console.log('file:', file)
-    console.log('imageSrc:', imageSrc)
-
     handleUserAdd({
       username: username, 
       password: password 

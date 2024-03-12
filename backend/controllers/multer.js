@@ -1,6 +1,7 @@
 const multer = require('multer')
 const awsRouter = require('express').Router()
 const Recipe = require('../models/recipe')
+const User = require('../models/user')
 const fetchRecipes = require('../middlewares/recipes')
 const fetchUsers = require('../middlewares/users')
 const { S3Client, PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
@@ -8,17 +9,25 @@ const crypto = require('crypto')
 const sharp = require('sharp')
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
+
 const dotenv = require('dotenv');
 
 dotenv.config()
-
-const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-const rndImageName = randomImageName()
 
 const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
 const accessKey = process.env.ACCESS_KEY_ID
 const secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+function randomImgNameGenerator(){
+  const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+  return randomImageName()
+}
+
+const setImageName = (req, res, next) => {
+  res.locals.imageName = randomImgNameGenerator();
+  next();
+};
 
 const s3 = new S3Client({
   credentials: {
@@ -34,7 +43,7 @@ const upload = multer({ storage: storage })
 awsRouter.get('/recipeImages', fetchRecipes, async (req, res) => {
 
   const recipes = await Recipe
-    .find({}).populate('user', { username: 1 })
+    .find({}).populate('user', { username: 1, imageName: 1})
 
   for (const recipe of recipes) {
     const recipeImageParams = {
@@ -48,7 +57,7 @@ awsRouter.get('/recipeImages', fetchRecipes, async (req, res) => {
 
     const avatarImageParams = {
       Bucket: bucketName,
-      Key: 'avatarImages/' + recipe.imageName, 
+      Key: 'avatarImages/' + recipe.user.imageName, 
     }
 
     const command2 = new GetObjectCommand(avatarImageParams)
@@ -59,24 +68,29 @@ awsRouter.get('/recipeImages', fetchRecipes, async (req, res) => {
   await res.send(recipes)
 })
 
-awsRouter.post('/recipeImages', upload.single('file'), async (req, res) => {
+awsRouter.post('/recipeImages', upload.single('file'), setImageName, async (req, res) => {
+
   const buffer = await sharp(req.file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer()
+
+  const imageName = req.body.awsImageName
 
   const params = {
     Bucket: bucketName,
-    Key: 'recipeImages/' + rndImageName, 
+    Key: 'recipeImages/' + imageName, 
     Body: buffer,
     ContentType: req.file.mimetype
   }
 
   const command = new PutObjectCommand(params)
-  
+
   await s3.send(command)
+  
 })
 
 awsRouter.get('/avatarImages', fetchUsers, async (req, res) => {
 
-  const users = req.users
+  const users = await User
+    .find({}).populate('recipes')
 
   for (const user of users) {
     const getObjectParams = {
@@ -93,10 +107,10 @@ awsRouter.get('/avatarImages', fetchUsers, async (req, res) => {
 
 awsRouter.post('/avatarImages', upload.single('file'), async (req, res) => {
   const buffer = await sharp(req.file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer()
-
+  
   const params = {
     Bucket: bucketName,
-    Key: 'avatarImages/' + rndImageName, 
+    Key: 'avatarImages/' + randomImgNameGenerator(), 
     Body: buffer,
     ContentType: req.file.mimetype
   }
@@ -104,6 +118,7 @@ awsRouter.post('/avatarImages', upload.single('file'), async (req, res) => {
   const command = new PutObjectCommand(params)
   
   await s3.send(command)
+
 })
 
 // // // /// // // // 
@@ -125,4 +140,4 @@ awsRouter.post('/avatarImages', upload.single('file'), async (req, res) => {
 //   await res.send(recipes)
 // }
 
-module.exports = { awsRouter, rndImageName }
+module.exports = { awsRouter }

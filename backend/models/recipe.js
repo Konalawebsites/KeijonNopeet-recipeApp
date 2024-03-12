@@ -12,7 +12,6 @@ const recipeSchema = new mongoose.Schema({
   likes: Number,
   image: String,
   comments: Array,
-  creator: String,
   created: Date,
   imageName: String,
   imageUrl: String,

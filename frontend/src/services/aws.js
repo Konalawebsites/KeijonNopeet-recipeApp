@@ -5,10 +5,12 @@ const avatarImagesUrl = 'http://localhost:3001/api/aws/avatarImages'
 const getAll = async () => {
   const request = axios.get(recipeImagesUrl)
   return request.then(response => response.data)
+
 }
 
 const create = async (file) => {
   const response = await axios.post(recipeImagesUrl, file, { headers: {'Content-Type': 'multipart/form-data'}})
+  console.log('fileAWSSERCVICE', file)
   return response.data
 }
 

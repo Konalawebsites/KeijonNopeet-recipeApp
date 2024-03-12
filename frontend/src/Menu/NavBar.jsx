@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Header, Button, Text, Menu, Box } from 'grommet';
 import { User, Logout } from 'grommet-icons'
 import { NavLink } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import React from 'react';
 
@@ -22,9 +23,15 @@ const StyledNavButton = styled(Button)`
   background: neutral-1
 `
 const NavBar = ({ user, setUser }) => {
+
+  const navigate = useNavigate();
+
+ 
+
   const handleLogOut = () => {
-    setUser(null)
+    navigate('/')
     window.localStorage.clear()
+    setUser(null)
   }
 
   return (
@@ -50,13 +57,19 @@ const NavBar = ({ user, setUser }) => {
       {user ? (
         <>
           <Text> kirjautunut: {user.username} </Text>
+          <Menu
+          label={<User color="white" size="medium" />}
+          items={[
+            { label: <NavLink to="profile"> PROFIILI </NavLink> },
+          ]}
+        />
           <Button onClick={handleLogOut}>
-            <Logout color='white' />
+            <Logout color='white'  />
           </Button>
         </>
       )
         : (<Menu
-          label={<User color="black" size="medium" />}
+          label={<User color="white" size="medium" />}
           items={[
             { label: <NavLink to="signin"> Kirjaudu </NavLink> },
             { label: <NavLink to="createuser"> Luo käyttäjä </NavLink> },

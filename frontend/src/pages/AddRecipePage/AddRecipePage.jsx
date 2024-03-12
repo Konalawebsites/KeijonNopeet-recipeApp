@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react"
+import { v4 as uuidv4 } from 'uuid';
 import { Box, Grid } from "grommet";
 
 import Selectors from "./Selectors";
@@ -9,6 +10,8 @@ import styled from "styled-components";
 import IngredientsTable from "./IngredientsForm";
 import Instructions from "./Instructions";
 import ResetSubmit from "./ResetSubmit";
+import { useNavigate } from "react-router-dom";
+
 
 const CenteredContainer = styled(Box)`
   display: flex;
@@ -26,6 +29,10 @@ const CenterBox = styled(Box)`
   width: 90%;
 `;
 
+function randomImgNameGenerator() {
+  return uuidv4(); // Generate random UUID
+}
+
 const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
 
   const [newReceptName, setNewReceptName] = useState('')
@@ -40,6 +47,7 @@ const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
 
   const handleReceptName = (event) => setNewReceptName(event.target.value)
   const handleReceptSpeed = (event) => setRecipeSpeed(event.target.value)
+  const navigate = useNavigate()
 
   const handleReset = (event) => {
 
@@ -59,7 +67,9 @@ const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    handleImageAdd({file, imageSrc})
+    const awsImageName = randomImgNameGenerator()
+
+    handleImageAdd({file, imageSrc, awsImageName })
 
     handleRecipeAdd({
       recipe_name: newReceptName,
@@ -69,6 +79,7 @@ const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
       category: category,
       main_ingredient: mainIngredient,
       diet: diets,
+      imageName: awsImageName
     })
 
     setNewReceptName('')
@@ -80,6 +91,8 @@ const AddRecipePage = ({ handleRecipeAdd, handleImageAdd }) => {
     setMainIngredient('')
     setFile(null)
     setImageSrc('')
+
+    navigate('/')
   }
 
   return (

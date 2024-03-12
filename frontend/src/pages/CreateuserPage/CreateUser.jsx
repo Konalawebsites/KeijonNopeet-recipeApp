@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react"
-import { Box, Button, Grid, TextInput } from "grommet";
+import { v4 as uuidv4 } from 'uuid';
+import { Box, Button, Grid } from "grommet";
 import ProfileImage from "./ProfileImage";
 import styled from "styled-components";
 import ProfileInput from "./ProfileInput";
@@ -21,10 +22,12 @@ const CenterBox = styled(Box)`
   width: 90%;
 `;
 
+function randomImgNameGenerator() {
+  return uuidv4(); // Generate random UUID
+}
+
 const CreateUser = ({handleUserAdd, handleImageAdd}) => {
 
-  const [name, setName] = useState('')
-  const [surName, setSurName] = useState('')
   const [file, setFile] = useState(null);
   const [imageSrc, setImageSrc] = useState('')
   const [username, setUsername] = useState('')
@@ -34,11 +37,14 @@ const CreateUser = ({handleUserAdd, handleImageAdd}) => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    handleImageAdd({file, imageSrc})
+    const awsImageName = randomImgNameGenerator()
+
+    handleImageAdd({file, imageSrc, awsImageName})
 
     handleUserAdd({
       username: username, 
-      password: password 
+      password: password,
+      imageName: awsImageName
     })
 
     setFile(null)

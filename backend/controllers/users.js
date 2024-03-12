@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
-const { rndImageName } = require('./multer')
 
 usersRouter.get('/', async (request, response) => {
   const users = await User
@@ -11,7 +10,7 @@ usersRouter.get('/', async (request, response) => {
 })
 
 usersRouter.post('/', async (request, response) => {
-  const { username, password } = request.body
+  const { username, password, imageName} = request.body
 
   const saltRounds = 10
   const passwordHash = await bcrypt.hash(password, saltRounds)
@@ -20,7 +19,7 @@ usersRouter.post('/', async (request, response) => {
     username,
     passwordHash,
     created: new Date(),
-    imageName: rndImageName,
+    imageName
   })
 
   const savedUser = await user.save()

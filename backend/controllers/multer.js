@@ -9,7 +9,6 @@ const crypto = require('crypto')
 const sharp = require('sharp')
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-
 const dotenv = require('dotenv');
 
 dotenv.config()
@@ -18,16 +17,6 @@ const bucketName = process.env.BUCKET_NAME
 const bucketRegion = process.env.BUCKET_REGION
 const accessKey = process.env.ACCESS_KEY_ID
 const secretAccessKey = process.env.SECRET_ACCESS_KEY
-
-function randomImgNameGenerator(){
-  const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
-  return randomImageName()
-}
-
-const setImageName = (req, res, next) => {
-  res.locals.imageName = randomImgNameGenerator();
-  next();
-};
 
 const s3 = new S3Client({
   credentials: {
@@ -68,7 +57,7 @@ awsRouter.get('/recipeImages', fetchRecipes, async (req, res) => {
   await res.send(recipes)
 })
 
-awsRouter.post('/recipeImages', upload.single('file'), setImageName, async (req, res) => {
+awsRouter.post('/recipeImages', upload.single('file'), async (req, res) => {
 
   const buffer = await sharp(req.file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer()
 
@@ -108,9 +97,11 @@ awsRouter.get('/avatarImages', fetchUsers, async (req, res) => {
 awsRouter.post('/avatarImages', upload.single('file'), async (req, res) => {
   const buffer = await sharp(req.file.buffer).resize({ height: 1920, width: 1080, fit: 'contain' }).toBuffer()
   
+  const imageName = req.body.awsImageName
+
   const params = {
     Bucket: bucketName,
-    Key: 'avatarImages/' + randomImgNameGenerator(), 
+    Key: 'avatarImages/' + imageName, 
     Body: buffer,
     ContentType: req.file.mimetype
   }

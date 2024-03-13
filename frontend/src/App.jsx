@@ -15,7 +15,6 @@ import userService from './services/users'
 import  awsService from './services/aws'
 import { useEffect, useState } from 'react';
 
-
 const theme = {
   global: {
     font: {
@@ -65,7 +64,6 @@ const App = () => {
     fetchData();
   }, []);
 
-  
   const awsRecipeImageAdd = async (file) => {
     try {
       await awsService.create(file)

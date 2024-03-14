@@ -1,6 +1,6 @@
 import axios from 'axios'
 // @ts-ignore
-import { Grommet, Text, Button } from 'grommet';
+import { Grommet } from 'grommet';
 import { Routes, Route } from '../node_modules/react-router-dom/dist/index';
 import NavBar from './Menu/NavBar';
 import MainPage from 'pages/MainPage/MainPage';
@@ -14,6 +14,8 @@ import recipeService from './services/recipes'
 import userService from './services/users'
 import  awsService from './services/aws'
 import { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { ResponsiveContext } from 'grommet';
 
 const theme = {
   global: {
@@ -31,7 +33,7 @@ const App = () => {
   const [loggedUser, setLoggedUser] = useState(null)
   const [loggedUserData, setLoggedUserData] = useState(null)
 
-  console.log('loggedUser', loggedUser)
+  useContext(ResponsiveContext)
 
   useEffect(() => {
     const fetchData = async () => {

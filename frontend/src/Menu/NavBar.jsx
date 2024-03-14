@@ -1,11 +1,11 @@
 
 import { useState } from 'react';
 // @ts-ignore
-import { Header, Button, Text, Menu, Box } from 'grommet';
-import { User, Logout } from 'grommet-icons'
-import { NavLink } from 'react-router-dom'
+import { Header, Text, Box } from 'grommet';
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import BigMenu from './BigMenu';
+import ShortMenu from './ShortMenu';
 import React from 'react';
 
 const StyledHeader = styled(Header)`
@@ -17,16 +17,11 @@ const StyledHeader = styled(Header)`
   elevation: medium;
 `;
 
-const StyledNavButton = styled(Button)`
-  text-decoration: underline #454545;
-  text-underline-offset: 5px;
-  background: neutral-1
-`
 const NavBar = ({ user, setUser }) => {
 
   const navigate = useNavigate();
 
- 
+  console.log(user)
 
   const handleLogOut = () => {
     navigate('/')
@@ -35,46 +30,14 @@ const NavBar = ({ user, setUser }) => {
   }
 
   return (
-    <StyledHeader  >
+    <StyledHeader >
       <Text size="large" color="text-strong">Keijon Nopeet </Text>
-
-      <Box direction='row' gap='large'>
-        <NavLink to="">
-          <StyledNavButton primary label="Etusivu" />
-        </NavLink>
-        <NavLink to="recipes">
-          <StyledNavButton primary label="Reseptit" />
-        </NavLink>
-
-        {user
-          ? (<NavLink to="addrecipe">
-            <StyledNavButton primary label="Lisää oma resepti" />
-          </NavLink>)
-          : (null)
+      <Box>
+      {user
+          ? (<BigMenu user={user} handleLogOut={handleLogOut} />)
+          : (<ShortMenu />)
         }
       </Box>
-
-      {user ? (
-        <>
-          <Text> kirjautunut: {user.username} </Text>
-          <Menu
-          label={<User color="white" size="medium" />}
-          items={[
-            { label: <NavLink to="profile"> PROFIILI </NavLink> },
-          ]}
-        />
-          <Button onClick={handleLogOut}>
-            <Logout color='white'  />
-          </Button>
-        </>
-      )
-        : (<Menu
-          label={<User color="white" size="medium" />}
-          items={[
-            { label: <NavLink to="signin"> Kirjaudu </NavLink> },
-            { label: <NavLink to="createuser"> Luo käyttäjä </NavLink> },
-          ]}
-        />)}
     </StyledHeader>
   )
 };

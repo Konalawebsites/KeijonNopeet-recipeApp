@@ -46,13 +46,6 @@ const BigMenu = ({ user, handleLogOut }) => {
         <Logout color='white' />
       </Button>
 
-      <Menu
-        label={<User color="white" size="medium" />}
-        items={[
-          { label: <NavLink to="signin"> Kirjaudu </NavLink> },
-          { label: <NavLink to="createuser"> Luo käyttäjä </NavLink> },
-        ]}
-      />
     </Box>
   )
 };

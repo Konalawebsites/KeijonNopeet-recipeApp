@@ -14,8 +14,6 @@ import recipeService from './services/recipes'
 import userService from './services/users'
 import  awsService from './services/aws'
 import { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { ResponsiveContext } from 'grommet';
 
 const theme = {
   global: {
@@ -32,8 +30,6 @@ const App = () => {
   const [users, setUsers] = useState([])
   const [loggedUser, setLoggedUser] = useState(null)
   const [loggedUserData, setLoggedUserData] = useState(null)
-
-  useContext(ResponsiveContext)
 
   useEffect(() => {
     const fetchData = async () => {

@@ -26,7 +26,6 @@ const ShortMenu = () => {
 
   return (
     <StyledHeader  >
-      <Text size="large" color="text-strong">Keijon Nopeet </Text>
 
       <Box direction='row' gap='large'>
         <NavLink to="">

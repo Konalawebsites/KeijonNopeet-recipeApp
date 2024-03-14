@@ -1,7 +1,8 @@
 
 import { useState } from 'react';
 // @ts-ignore
-import { Header, Text, Box } from 'grommet';
+import { Box, Header, Text, ResponsiveContext } from 'grommet';
+import { useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import BigMenu from './BigMenu';
@@ -22,6 +23,9 @@ const NavBar = ({ user, setUser }) => {
   const navigate = useNavigate();
 
   console.log(user)
+
+  const screenSize = useContext(ResponsiveContext);
+  const isSmallScreen = ['xsmall', 'small'].includes(screenSize);
 
   const handleLogOut = () => {
     navigate('/')

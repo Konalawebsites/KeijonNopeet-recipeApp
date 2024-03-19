@@ -2,25 +2,8 @@ import React from "react";
 import { useState } from "react"
 import SearchPart from "./SearchPart/SearchPart";
 import RecipesPart from "./RecipesPart/RecipesPart";
-import { Box, Form, Grid, Header, Sidebar, Text } from "grommet";
-import styled from "styled-components";
+import { CenterBox, CenteredContainer } from "styles/styles";
 
-
-const CenteredContainer = styled(Box)`
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  padding: medium;
-`;
-
-const CenterBox = styled(Box)`
-  border: solid;
-  border-color: green;
-  border-width: medium;
-  padding: large;
-  border-radius: small;
-  width: 90%;
-`;
 
 const RecipesPage = ({ recipes }) => {
 

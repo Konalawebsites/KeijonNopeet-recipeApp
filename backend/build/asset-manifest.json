@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.95f80211.js",
+    "main.js": "/static/js/main.2ca0847c.js",
     "static/media/speedometer002.jpg": "/static/media/speedometer002.ba187572987dbbb2469d.jpg",
     "static/media/speedometer003.jpg": "/static/media/speedometer003.bdd25ea108de69d36584.jpg",
     "static/media/speedometer017.jpg": "/static/media/speedometer017.4e5de4fc781d2cb14145.jpg",
@@ -42,13 +42,14 @@
     "static/media/speedometer011.jpg": "/static/media/speedometer011.9270edfd7e6f91e863d8.jpg",
     "static/media/speedometer032.jpg": "/static/media/speedometer032.c9bef67ccaf46a48ed20.jpg",
     "static/media/speedometer022.jpg": "/static/media/speedometer022.ec2298f9e6eb4e867e13.jpg",
+    "static/media/keijonnopeet.png": "/static/media/keijonnopeet.48d6f261edbe6cb60af2.png",
     "static/media/vegan.png": "/static/media/vegan.117d32ceb0d746e254c4.png",
     "static/media/gluten-free.png": "/static/media/gluten-free.0a9072ec39418138b93f.png",
     "static/media/no-milk.png": "/static/media/no-milk.9b081f5de40220c5f403.png",
     "index.html": "/index.html",
-    "main.95f80211.js.map": "/static/js/main.95f80211.js.map"
+    "main.2ca0847c.js.map": "/static/js/main.2ca0847c.js.map"
   },
   "entrypoints": [
-    "static/js/main.95f80211.js"
+    "static/js/main.2ca0847c.js"
   ]
 }

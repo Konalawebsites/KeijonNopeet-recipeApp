@@ -1,8 +1,9 @@
 import axios from 'axios'
 // @ts-ignore
-import { Grommet } from 'grommet';
+import { Grommet, Footer, Text} from 'grommet';
 import { Routes, Route } from '../node_modules/react-router-dom/dist/index';
 import NavBar from './Menu/NavBar';
+import BottomBar from 'Menu/Footer';
 import MainPage from 'pages/MainPage/MainPage';
 import LoginForm from 'pages/LoginPage/LoginForm';
 import CreateUser from 'pages/CreateuserPage/CreateUser';
@@ -10,20 +11,12 @@ import RecipesPage from 'pages/RecipesPage/RecipesPage';
 import AddRecipePage from 'pages/AddRecipePage/AddRecipePage';
 import SingleRecipe from 'pages/SingleRecipe/SingleRecipe';
 import ProfilePage from 'pages/ProfilePage/ProfilePage';
+import IntroductionPage from 'pages/IntroductionPage';
 import recipeService from './services/recipes'
 import userService from './services/users'
-import  awsService from './services/aws'
+import awsService from './services/aws'
 import { useEffect, useState } from 'react';
-
-const theme = {
-  global: {
-    font: {
-      family: "Roboto",
-      size: "20px",
-      height: "20px",
-    },
-  },
-};
+import { theme } from 'styles/theme';
 
 const App = () => {
   const [recipes, setRecipes] = useState([])
@@ -79,24 +72,24 @@ const App = () => {
     const speed = recipeObject.speed
     const category = recipeObject.category
     const main_ingredient = recipeObject.main_ingredient
-    const diet = recipeObject.diet 
-    const comments = recipeObject.comments 
+    const diet = recipeObject.diet
+    const comments = recipeObject.comments
     const created = recipeObject.created
     const imageName = recipeObject.imageName
-  
+
     try {
       const recipe = await recipeService.create({
-        recipe_name, ingredients, instructions, speed, category, 
+        recipe_name, ingredients, instructions, speed, category,
         main_ingredient, diet, comments, created, imageName
       })
       setRecipes(recipes.concat(recipe))
-    } 
+    }
     catch (exception) {
       console.log('error'
       )
     }
   }
- 
+
   const awsAvatarImageAdd = async (file) => {
     try {
       await awsService.createAvatar(file)
@@ -120,25 +113,27 @@ const App = () => {
 
   return (
     <Grommet theme={theme} full>
-      <NavBar user={loggedUser} setUser={setLoggedUser}/>
+      <NavBar user={loggedUser} loggedUserData={loggedUserData} setUser={setLoggedUser} />
       <Routes>
         <Route path="/" element={<MainPage recipes={recipes} />} />
-        <Route path="/signin" element={<LoginForm setUser={setLoggedUser}/>} />
-        <Route path="/createuser" element={<CreateUser handleUserAdd={handleUserAdd} 
-        handleImageAdd={awsAvatarImageAdd} />} />
-        <Route path="/profile" element={<ProfilePage loggedUserData={loggedUserData}/>} />
+        <Route path="/signin" element={<LoginForm setUser={setLoggedUser} />} />
+        <Route path="/createuser" element={<CreateUser handleUserAdd={handleUserAdd}
+          handleImageAdd={awsAvatarImageAdd} />} />
+        <Route path="/profile" element={<ProfilePage loggedUserData={loggedUserData} />} />
+        <Route path="/us" element={<IntroductionPage />} />
         <Route path="/recipes" element={<RecipesPage recipes={recipes} />} />
         <Route path="/addrecipe" element={<AddRecipePage handleRecipeAdd={handleRecipeAdd}
-         handleImageAdd={awsRecipeImageAdd} />} />
+          handleImageAdd={awsRecipeImageAdd} />} />
 
         {recipes?.map(recipe => (
           <Route
             key={recipe.id}
             path={`/recipes/${recipe.id}`}
-            element={<SingleRecipe recipe={recipe} recipes={recipes}/>}
+            element={<SingleRecipe recipe={recipe} recipes={recipes} />}
           />
         ))}
       </Routes>
+      <BottomBar />
     </Grommet>
   );
 }

@@ -1,13 +1,12 @@
-import { useState } from "react"
 import styled from "styled-components"
-import { Box, Button, Card, CardHeader, CardBody, CardFooter, Image, Text } from 'grommet'
+import { Box, Card, CardHeader, CardBody, CardFooter, Image, Text } from 'grommet'
 
 const StyledCard = styled(Card)`
-  width: 300px; /* Adjust width as needed */
-  border-radius: 10px; /* Adjust border radius as needed */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adjust box shadow as needed */
-  background-color: light-yellow
-  align: center
+  width: 300px; 
+  border-radius: 10px; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+  align: center;
+  
 `;
 
 const ImageContainer = styled(Box)`
@@ -32,9 +31,9 @@ const UserAvatar = ({ loggedUserData }) => {
 
   return (
     <Box >
-    <StyledCard >
-      <CardHeader pad="medium" justify="center" background="light-2">{loggedUserData?.username} </CardHeader>
-      <CardBody pad="medium" height="auto" background="light-1">
+    <StyledCard background={`rgba(255, 255, 255)`}>
+      <CardHeader color="black" pad="medium" justify="center">{loggedUserData?.username} </CardHeader>
+      <CardBody pad="medium" height="auto" >
         <ImageContainer >
           {loggedUserData?.avatarUrl && (
             <StyledImage src={loggedUserData.avatarUrl} />
@@ -42,9 +41,9 @@ const UserAvatar = ({ loggedUserData }) => {
         </ImageContainer>
 
       </CardBody>
-      <CardFooter pad={{ horizontal: "small" }} background="light-2"> 
+      <CardFooter pad={{ horizontal: "small" }}> 
       <Box >
-        <Text> Reseptit: {userRecipes?.length} </Text>
+        <Text color="black"> Reseptit: {userRecipes?.length} </Text>
       </Box>
       </CardFooter>
     </StyledCard>

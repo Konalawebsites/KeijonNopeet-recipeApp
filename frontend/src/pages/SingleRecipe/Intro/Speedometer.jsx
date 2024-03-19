@@ -1,8 +1,5 @@
-import { Avatar, Box, Card, Grid, Heading, Image, Stack, Text } from "grommet"
-import { UserFemale } from 'grommet-icons';
+import { Box, Image, Stack, Text } from "grommet"
 import styled from "styled-components";
-import IntroBottomBar from "./IntroBottomBar";
-import IntroFilters from "./IntroFilters";
 import speedometers from '../../../images';
 
 const StyledImage = styled(Image)`

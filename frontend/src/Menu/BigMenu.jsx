@@ -1,31 +1,18 @@
-
-import { useState } from 'react';
-// @ts-ignore
-import { Header, Button, Text, Menu, Box } from 'grommet';
-import { User, Logout } from 'grommet-icons'
+import {  Button, Menu, Box } from 'grommet';
+import { Logout } from 'grommet-icons'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components';
-import React from 'react';
+import UserCard from 'pages/SingleRecipe/Intro/UserCard';
+import { StyledNavButton } from 'styles/styles';
 
-const StyledHeader = styled(Header)`
-  background: ${(props) => props.theme.global.colors.brand};
-  padding-left: medium;
-  padding-right: small;
-  padding-top: small;
-  padding-bottom: small;
-  elevation: medium;
-`;
+const NavBox = styled(Box)`
+  gap: 50px;
+  `
 
-const StyledNavButton = styled(Button)`
-  text-decoration: underline #454545;
-  text-underline-offset: 5px;
-  background: neutral-1
-`
-const BigMenu = ({ user, handleLogOut }) => {
+const BigMenu = ({ loggedUserData, handleLogOut }) => {
 
   return (
-
-    <Box direction='row' gap='large'>
+    <NavBox direction='row'>
       <NavLink to="">
         <StyledNavButton primary label="Etusivu" />
       </NavLink>
@@ -36,17 +23,15 @@ const BigMenu = ({ user, handleLogOut }) => {
       <NavLink to="addrecipe">
         <StyledNavButton primary label="Lisää oma resepti" />
       </NavLink>
-
-      <Text> kirjautunut: {user.username} </Text>
-      <Menu label={<User color="white" size="medium" />}
+      <Menu label={<UserCard props={loggedUserData}/>}
         items={[{ label: <NavLink to="profile"> PROFIILI </NavLink> },
         ]}
       />
-      <Button onClick={handleLogOut}>
-        <Logout color='white' />
+      <Button onClick={handleLogOut} margin={{top: "50px", right: "40px"}}>
+        <Logout  color='white' />
       </Button>
 
-    </Box>
+    </NavBox>
   )
 };
 

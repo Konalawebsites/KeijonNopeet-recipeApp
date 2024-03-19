@@ -1,5 +1,3 @@
-import React from "react";
-import { useState } from "react"
 import { Box, Data, DataTable, Grid, Image, Text } from "grommet";
 import styled from "styled-components";
 

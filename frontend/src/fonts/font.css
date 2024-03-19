@@ -1,0 +1,38 @@
+import React from 'react';
+
+export const theme = {
+  global: {
+    font: {
+      family: "Roboto",
+      size: "20px",
+      height: "20px",
+    },
+    colors: {
+      brand: '#E2F914',
+      background: 'black',
+      'background-contrast': {
+        light: '#E2F914',
+        dark: '#E2F914',
+      },
+      'active-background': 'background-contrast',
+      'active-text': 'text-strong',
+      black: '#000000',
+      'text-strong': {
+        dark: '#E2F914',
+        light: '#000000',
+      },
+      'text-weak': {
+        dark: '#E2F914',
+        light: '#555555',
+      },
+      'text-xweak': {
+        dark: '#BBBBBB',
+        light: '#666666',
+      },
+      icon: {
+        dark: '#E2F914',
+        light: '#E2F914',
+      },
+    },
+  },
+};

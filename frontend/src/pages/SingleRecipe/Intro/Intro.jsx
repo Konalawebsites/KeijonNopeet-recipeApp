@@ -1,17 +1,9 @@
-import { Avatar, Box, Card, Grid, Heading, Image, Stack, Text } from "grommet"
-import { UserFemale } from 'grommet-icons';
-import styled from "styled-components";
+import { Box, Card, Grid, Heading, Image, Stack, Text } from "grommet"
 import IntroBottomBar from "./IntroBottomBar";
 import IntroFilters from "./IntroFilters";
 import SpeedOMeter from "./Speedometer";
 import UserCard from "./UserCard";
 
-const StyledBox = styled(Box)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-`;
 
 const speedometerSize = "250px"
 
@@ -31,7 +23,7 @@ const Intro = ({ recipe }) => {
         <Heading size="small"> {recipe.recipe_name} </Heading>
       </Box>
 
-      <UserCard recipe={recipe} />
+      <UserCard props={recipe} />
 
       <Box gridArea="speed" margin="10px" align="center" justify="center">
         <SpeedOMeter recipespeed={recipe.speed} size={speedometerSize} />

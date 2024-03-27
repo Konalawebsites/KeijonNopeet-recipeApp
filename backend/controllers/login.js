@@ -4,6 +4,7 @@ const loginRouter = require('express').Router()
 const User = require('../models/user')
 
 loginRouter.post('/', async (request, response) => {
+  
   const { username, password } = request.body
 
   const user = await User.findOne({ username })
@@ -14,7 +15,7 @@ loginRouter.post('/', async (request, response) => {
 
   if (!(user && passwordCorrect)) {
     return response.status(401).json({
-      error: 'invalid username or password'
+      error: 'ERROR: invalid username or password'
     })
   }
   
@@ -24,8 +25,6 @@ loginRouter.post('/', async (request, response) => {
   }
 
   const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 60 * 60 })
-
-  console.log(token)
 
   response
     .status(200)

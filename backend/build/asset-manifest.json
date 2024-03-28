@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.cb8adef1.css",
-    "main.js": "/static/js/main.b2b935d1.js",
+    "main.js": "/static/js/main.d5da16b4.js",
     "static/media/speedometer002.jpg": "/static/media/speedometer002.ba187572987dbbb2469d.jpg",
     "static/media/speedometer003.jpg": "/static/media/speedometer003.bdd25ea108de69d36584.jpg",
     "static/media/speedometer017.jpg": "/static/media/speedometer017.4e5de4fc781d2cb14145.jpg",
@@ -50,10 +50,10 @@
     "static/media/no-milk.png": "/static/media/no-milk.9b081f5de40220c5f403.png",
     "index.html": "/index.html",
     "main.cb8adef1.css.map": "/static/css/main.cb8adef1.css.map",
-    "main.b2b935d1.js.map": "/static/js/main.b2b935d1.js.map"
+    "main.d5da16b4.js.map": "/static/js/main.d5da16b4.js.map"
   },
   "entrypoints": [
     "static/css/main.cb8adef1.css",
-    "static/js/main.b2b935d1.js"
+    "static/js/main.d5da16b4.js"
   ]
 }
